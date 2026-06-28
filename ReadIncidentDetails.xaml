@@ -1,0 +1,148 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ReadIncidentDetails" this:ReadIncidentDetails.in_ExcelFilePath="C:\Users\SushmaRajolli\OneDrive - Qualesce\QI0068\UiPath Hackathon26_638\Incident Report.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_ExcelFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="out_IncidentID" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Employee" Type="OutArgument(x:String)" />
+    <x:Property Name="out_AlertType" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Severity" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Details" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Excel</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Read Incident Details" sap:VirtualizedContainerService.HintSize="1281,3265" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_IncidentData" />
+      <Variable x:TypeArguments="x:String" Name="str_MissingColumns" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log - Start Process" sap:VirtualizedContainerService.HintSize="488,175" sap2010:WorkflowViewState.IdRef="LogMessage_Start" Level="Info" Message="[&quot;[ReadIncidentDetails] Starting extraction from file: &quot; &amp; in_ExcelFilePath]" />
+    <TryCatch DisplayName="TryCatch - Read Incident Data" sap:VirtualizedContainerService.HintSize="488,3067" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <TryCatch.Try>
+        <Sequence DisplayName="Try - Process Excel File" sap:VirtualizedContainerService.HintSize="486,2529" sap2010:WorkflowViewState.IdRef="Sequence_Try">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If Condition="[Not File.Exists(in_ExcelFilePath)]" DisplayName="If - File Not Found" sap:VirtualizedContainerService.HintSize="452,342" sap2010:WorkflowViewState.IdRef="If_FileNotFound">
+            <If.Then>
+              <Throw DisplayName="Throw - FileNotFoundException" Exception="[New System.IO.FileNotFoundException(&quot;Excel file not found at path: &quot; &amp; in_ExcelFilePath)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_FileNotFound" />
+            </If.Then>
+          </If>
+          <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[dt_IncidentData]" DisplayName="Read Range - Load Excel Data" sap:VirtualizedContainerService.HintSize="452,227" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="Sheet1" WorkbookPath="[in_ExcelFilePath]" />
+          <If Condition="[dt_IncidentData Is Nothing OrElse dt_IncidentData.Rows.Count = 0]" DisplayName="If - Empty Excel File" sap:VirtualizedContainerService.HintSize="452,342" sap2010:WorkflowViewState.IdRef="If_EmptyFile">
+            <If.Then>
+              <Throw DisplayName="Throw - Empty File Exception" Exception="[New Exception(&quot;The Excel file contains no data rows. Please ensure the file has at least one row of data.&quot;)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_EmptyFile" />
+            </If.Then>
+          </If>
+          <Assign DisplayName="Assign - Find Missing Columns" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="Assign_MissingCols">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[str_MissingColumns]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[String.Join(", ", (New String() {"Incident ID", "Employee", "Alert Type", "Severity", "Details"}).Where(Function(col) Not dt_IncidentData.Columns.Contains(col)).ToArray())]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <If Condition="[Not String.IsNullOrEmpty(str_MissingColumns)]" DisplayName="If - Missing Required Columns" sap:VirtualizedContainerService.HintSize="452,342" sap2010:WorkflowViewState.IdRef="If_MissingCols">
+            <If.Then>
+              <Throw DisplayName="Throw - Missing Columns Exception" Exception="[New Exception(&quot;Required column(s) missing from Excel file: &quot; &amp; str_MissingColumns)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_MissingCols" />
+            </If.Then>
+          </If>
+          <Assign DisplayName="Assign - out_IncidentID" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="Assign_IncidentID">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_IncidentID]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[dt_IncidentData.Rows(0)("Incident ID").ToString().Trim()]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign - out_Employee" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="Assign_Employee">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_Employee]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[dt_IncidentData.Rows(0)("Employee").ToString().Trim()]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign - out_AlertType" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="Assign_AlertType">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_AlertType]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[dt_IncidentData.Rows(0)("Alert Type").ToString().Trim()]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign - out_Severity" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="Assign_Severity">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_Severity]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[dt_IncidentData.Rows(0)("Severity").ToString().Trim()]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign - out_Details" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="Assign_Details">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_Details]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[dt_IncidentData.Rows(0)("Details").ToString().Trim()]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:LogMessage DisplayName="Log - Extracted Values" sap:VirtualizedContainerService.HintSize="452,166" sap2010:WorkflowViewState.IdRef="LogMessage_Success" Level="Info" Message="[&quot;[ReadIncidentDetails] Extraction successful:&quot; &amp; Environment.NewLine &amp; &quot;  Incident ID : &quot; &amp; out_IncidentID &amp; Environment.NewLine &amp; &quot;  Employee    : &quot; &amp; out_Employee &amp; Environment.NewLine &amp; &quot;  Alert Type  : &quot; &amp; out_AlertType &amp; Environment.NewLine &amp; &quot;  Severity    : &quot; &amp; out_Severity &amp; Environment.NewLine &amp; &quot;  Details     : &quot; &amp; out_Details]" />
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Handle - Exception" sap:VirtualizedContainerService.HintSize="486,283" sap2010:WorkflowViewState.IdRef="Sequence_Catch">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log - Error" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="LogMessage_Error" Level="Error" Message="[&quot;[ReadIncidentDetails] ERROR - Type: &quot; &amp; ex.GetType().Name &amp; &quot; | Message: &quot; &amp; ex.Message]" />
+              <Rethrow DisplayName="Rethrow Exception" sap:VirtualizedContainerService.HintSize="452,48" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+  </Sequence>
+</Activity>
