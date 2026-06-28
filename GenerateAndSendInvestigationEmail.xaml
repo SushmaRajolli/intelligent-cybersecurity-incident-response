@@ -1,0 +1,331 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="GenerateAndSendInvestigationEmail" this:GenerateAndSendInvestigationEmail.in_EmployeeName="John" this:GenerateAndSendInvestigationEmail.in_EmployeeEmail="sushma.g@qualesce.com" this:GenerateAndSendInvestigationEmail.in_IncidentID="INC001" this:GenerateAndSendInvestigationEmail.in_IncidentDetails="Employee clicked a phishing email link and entered credentials on a fake login page." this:GenerateAndSendInvestigationEmail.in_RecommendedAction="Immediately reset the employee's password, revoke all active sessions and tokens, and enforce MFA if not already enabled. Review authentication logs for suspicious sign-ins, especially unusual IPs, geographies, or off-hours access, and disable the account temporarily if compromise is confirmed. Block the phishing sender/domain/URL, remove the email from other mailboxes, and scan the employee's device for additional malicious activity. Notify the security team to monitor for account takeover or related access to sensitive systems and document the incident for containment and follow-up." xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:umae="clr-namespace:UiPath.Mail.Activities.Enums;assembly=UiPath.Mail.Activities" xmlns:usau="clr-namespace:UiPath.Shared.Activities.Utils;assembly=UiPath.Mail.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_EmployeeName" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmployeeEmail" Type="InArgument(x:String)" />
+    <x:Property Name="in_IncidentID" Type="InArgument(x:String)" />
+    <x:Property Name="in_IncidentDetails" Type="InArgument(x:String)" />
+    <x:Property Name="in_RecommendedAction" Type="InArgument(x:String)" />
+    <x:Property Name="out_EmailSubject" Type="OutArgument(x:String)" />
+    <x:Property Name="out_EmailBody" Type="OutArgument(x:String)" />
+    <x:Property Name="out_EmailSentStatus" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="ActivityBuilder_1" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+  <Sequence DisplayName="GenerateAndSendInvestigationEmail" sap:VirtualizedContainerService.HintSize="1281,6397" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="v_EmailSubject" />
+      <Variable x:TypeArguments="x:String" Name="v_EmailBody" />
+      <Variable x:TypeArguments="x:String" Name="v_EvidenceList" />
+      <Variable x:TypeArguments="x:String" Name="v_ExceptionDetails" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch DisplayName="TryCatch - Generate and Send Investigation Email" sap:VirtualizedContainerService.HintSize="522,6374" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <TryCatch.Try>
+        <Sequence DisplayName="Main Process" sap:VirtualizedContainerService.HintSize="520,5543" sap2010:WorkflowViewState.IdRef="Sequence_6">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Sequence DisplayName="Step 1 - Validate Inputs" sap:VirtualizedContainerService.HintSize="486,1109" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If Condition="[String.IsNullOrEmpty(in_EmployeeEmail)]" DisplayName="Check - Employee Email Not Empty" sap:VirtualizedContainerService.HintSize="452,342" sap2010:WorkflowViewState.IdRef="If_1">
+              <If.Then>
+                <Throw DisplayName="Throw - Missing Employee Email" Exception="[New Exception(&quot;Validation Error: Employee email address is missing or empty.&quot;)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_1" />
+              </If.Then>
+            </If>
+            <If Condition="[String.IsNullOrEmpty(in_IncidentDetails)]" DisplayName="Check - Incident Details Not Empty" sap:VirtualizedContainerService.HintSize="452,342" sap2010:WorkflowViewState.IdRef="If_2">
+              <If.Then>
+                <Throw DisplayName="Throw - Missing Incident Details" Exception="[New Exception(&quot;Validation Error: Incident details are missing or empty.&quot;)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_3" />
+              </If.Then>
+            </If>
+            <If Condition="[String.IsNullOrEmpty(in_IncidentID)]" DisplayName="Check - Incident ID Not Empty" sap:VirtualizedContainerService.HintSize="452,333" sap2010:WorkflowViewState.IdRef="If_3">
+              <If.Then>
+                <Throw DisplayName="Throw - Missing Incident ID" Exception="[New Exception(&quot;Validation Error: Incident ID is missing or empty.&quot;)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_2" />
+              </If.Then>
+            </If>
+          </Sequence>
+          <Sequence DisplayName="Step 2 - Analyze Recommended Action" sap:VirtualizedContainerService.HintSize="486,1440" sap2010:WorkflowViewState.IdRef="Sequence_3">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign DisplayName="Initialize Base Evidence List" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="Assign_5">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EvidenceList]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">["&lt;li&gt;Confirmation of your recent login activity and the locations/devices used&lt;/li&gt;&lt;li&gt;Business justification for any actions flagged in this incident&lt;/li&gt;&lt;li&gt;Any supporting evidence, documents, or screenshots you can provide&lt;/li&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <If Condition="[in_RecommendedAction.ToLower().Contains(&quot;phish&quot;) OrElse in_RecommendedAction.ToLower().Contains(&quot;suspicious email&quot;) OrElse in_RecommendedAction.ToLower().Contains(&quot;link&quot;)]" DisplayName="Check - Phishing Indicators in Recommendation" sap:VirtualizedContainerService.HintSize="452,394" sap2010:WorkflowViewState.IdRef="If_4">
+              <If.Then>
+                <Assign DisplayName="Add Phishing Evidence Items" sap:VirtualizedContainerService.HintSize="450,143" sap2010:WorkflowViewState.IdRef="Assign_16">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[v_EvidenceList]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[v_EvidenceList &amp; "&lt;li&gt;Details of any suspicious emails received (sender address, subject line, date/time received)&lt;/li&gt;&lt;li&gt;Confirmation whether you clicked any suspicious links or opened attachments&lt;/li&gt;&lt;li&gt;Screenshots of any suspicious emails if still available in your mailbox&lt;/li&gt;"]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Then>
+            </If>
+            <If Condition="[in_RecommendedAction.ToLower().Contains(&quot;login&quot;) OrElse in_RecommendedAction.ToLower().Contains(&quot;credential&quot;) OrElse in_RecommendedAction.ToLower().Contains(&quot;password&quot;) OrElse in_RecommendedAction.ToLower().Contains(&quot;account&quot;)]" DisplayName="Check - Credential Compromise Indicators in Recommendation" sap:VirtualizedContainerService.HintSize="452,394" sap2010:WorkflowViewState.IdRef="If_5">
+              <If.Then>
+                <Assign DisplayName="Add Credential Evidence Items" sap:VirtualizedContainerService.HintSize="450,143" sap2010:WorkflowViewState.IdRef="Assign_17">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[v_EvidenceList]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[v_EvidenceList &amp; "&lt;li&gt;Confirmation of all recent login attempts and whether they were initiated by you&lt;/li&gt;&lt;li&gt;Details of any unexpected Multi-Factor Authentication (MFA) prompts you received&lt;/li&gt;&lt;li&gt;Information on whether credentials may have been shared or potentially compromised&lt;/li&gt;"]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Then>
+            </If>
+            <If Condition="[in_RecommendedAction.ToLower().Contains(&quot;download&quot;) OrElse in_RecommendedAction.ToLower().Contains(&quot;file&quot;) OrElse in_RecommendedAction.ToLower().Contains(&quot;sensitive&quot;) OrElse in_RecommendedAction.ToLower().Contains(&quot;data&quot;)]" DisplayName="Check - File Download Indicators in Recommendation" sap:VirtualizedContainerService.HintSize="452,385" sap2010:WorkflowViewState.IdRef="If_6">
+              <If.Then>
+                <Assign DisplayName="Add File Download Evidence Items" sap:VirtualizedContainerService.HintSize="450,143" sap2010:WorkflowViewState.IdRef="Assign_18">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[v_EvidenceList]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[v_EvidenceList &amp; "&lt;li&gt;Business justification for any files downloaded, accessed, or transferred during the flagged period&lt;/li&gt;&lt;li&gt;List and description of files that were accessed or downloaded&lt;/li&gt;&lt;li&gt;Confirmation of the destination where the files were saved, sent, or uploaded&lt;/li&gt;"]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Then>
+            </If>
+          </Sequence>
+          <Assign DisplayName="Step 3 - Generate Email Subject" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="Assign_3">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[v_EmailSubject]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">["Security Investigation Required - Incident " &amp; in_IncidentID]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Sequence DisplayName="Step 4 - Generate Email Body" sap:VirtualizedContainerService.HintSize="486,1658" sap2010:WorkflowViewState.IdRef="Sequence_4">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign DisplayName="Build - HTML Document Open Tag" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_6">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">["&lt;html&gt;&lt;body style='font-family:Arial,sans-serif;font-size:14px;color:#333333;line-height:1.6;max-width:750px;margin:0 auto;padding:20px;'&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Build - Greeting Line" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_7">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody &amp; "&lt;p&gt;Dear " &amp; in_EmployeeName &amp; ",&lt;/p&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Build - Opening Paragraph" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_8">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody &amp; "&lt;p&gt;Our &lt;strong&gt;Security Operations Team&lt;/strong&gt; is currently investigating &lt;strong&gt;Incident " &amp; in_IncidentID &amp; "&lt;/strong&gt; involving suspicious activity associated with your account. Your cooperation is vital to help us resolve this matter promptly and safeguard the organization&amp;apos;s security posture.&lt;/p&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Build - Incident Details Section" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_9">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody &amp; "&lt;p&gt;&lt;strong&gt;Incident Details:&lt;/strong&gt;&lt;/p&gt;&lt;div style='background-color:#fff3cd;border-left:4px solid #ffc107;padding:10px 15px;margin:10px 0;border-radius:4px;'&gt;" &amp; in_IncidentDetails &amp; "&lt;/div&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Build - Reason for Investigation" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_10">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody &amp; "&lt;p&gt;As part of our standard cybersecurity investigation procedures, we require your assistance to provide additional context and clarification regarding the flagged activities associated with your account.&lt;/p&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Build - Information Required List" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_11">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody &amp; "&lt;p&gt;&lt;strong&gt;To assist with the investigation, please provide the following information:&lt;/strong&gt;&lt;/p&gt;&lt;ul style='padding-left:20px;'&gt;" &amp; v_EvidenceList &amp; "&lt;/ul&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Build - Recommended Action Section" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_12">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody &amp; "&lt;p&gt;&lt;strong&gt;Recommended Action:&lt;/strong&gt;&lt;/p&gt;&lt;div style='background-color:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 15px;margin:10px 0;border-radius:4px;'&gt;" &amp; in_RecommendedAction &amp; "&lt;/div&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Build - Response Timeline and Cooperation Request" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_13">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody &amp; "&lt;p&gt;&lt;strong&gt;Please respond within 24 hours&lt;/strong&gt; to help us complete the investigation in a timely manner. Failure to respond may result in further escalation in accordance with our security policy.&lt;/p&gt;&lt;p&gt;If you have any questions or concerns regarding this investigation, please do not hesitate to contact the Security Operations Team immediately.&lt;/p&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Build - Signature and Footer" sap:VirtualizedContainerService.HintSize="416,166" sap2010:WorkflowViewState.IdRef="Assign_14">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[v_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody &amp; "&lt;p&gt;Thank you for your cooperation.&lt;/p&gt;&lt;br/&gt;&lt;p&gt;&lt;strong&gt;Regards,&lt;/strong&gt;&lt;br/&gt;Cybersecurity Operations Team&lt;br/&gt;&lt;em&gt;Security Operations Center (SOC)&lt;/em&gt;&lt;/p&gt;&lt;hr style='border:1px solid #cccccc;margin-top:20px;'/&gt;&lt;p style='font-size:11px;color:#888888;'&gt;&lt;em&gt;This is an automated notification from the Security Operations Team. Please do not reply to this email directly. For urgent matters, contact your Security team immediately.&lt;/em&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+          <Sequence DisplayName="Step 5 - Set Output Arguments" sap:VirtualizedContainerService.HintSize="486,433" sap2010:WorkflowViewState.IdRef="Sequence_5">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign DisplayName="Assign out_EmailSubject" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_15">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_EmailSubject]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailSubject]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Assign out_EmailBody" sap:VirtualizedContainerService.HintSize="416,166" sap2010:WorkflowViewState.IdRef="Assign_19">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_EmailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[v_EmailBody]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+          <ui:SendOutlookMail Account="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" UseRichTextEditor="{x:Null}" Body="[v_EmailBody]" ConnectionMode="LegacyConfiguration" DisplayName="Step 6 - Send Investigation Email via Outlook" sap:VirtualizedContainerService.HintSize="486,327" sap2010:WorkflowViewState.IdRef="SendOutlookMail_1" Importance="Normal" IsBodyHtml="True" IsDraft="False" Sensitivity="Normal" Subject="[v_EmailSubject]" To="[in_EmployeeEmail]" UseISConnection="False">
+            <ui:SendOutlookMail.ConnectionDetailsBackupSlot>
+              <usau:BackupSlot x:TypeArguments="umae:ConnectionDetails" StoredValue="{x:Null}">
+                <usau:BackupSlot.BackupValues>
+                  <scg:Dictionary x:TypeArguments="umae:ConnectionDetails, scg:List(x:Object)" />
+                </usau:BackupSlot.BackupValues>
+              </usau:BackupSlot>
+            </ui:SendOutlookMail.ConnectionDetailsBackupSlot>
+            <ui:SendOutlookMail.Files>
+              <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+            </ui:SendOutlookMail.Files>
+          </ui:SendOutlookMail>
+          <Assign DisplayName="Set out_EmailSentStatus - Success" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="Assign_4">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_EmailSentStatus]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">["Success"]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:LogMessage DisplayName="Step 7 - Log Success" sap:VirtualizedContainerService.HintSize="486,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;[GenerateAndSendInvestigationEmail] SUCCESS | IncidentID: &quot; &amp; in_IncidentID &amp; &quot; | Employee: &quot; &amp; in_EmployeeName &amp; &quot; | Recipient: &quot; &amp; in_EmployeeEmail &amp; &quot; | Subject: &quot; &amp; v_EmailSubject &amp; &quot; | Status: Success&quot;]" />
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Handle Exception" sap:VirtualizedContainerService.HintSize="520,576" sap2010:WorkflowViewState.IdRef="Sequence_7">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <Assign DisplayName="Set out_EmailSentStatus - Failed" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="Assign_1">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[out_EmailSentStatus]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">["Failed"]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign DisplayName="Capture Exception Details" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="Assign_2">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[v_ExceptionDetails]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[ex.Message]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <ui:LogMessage DisplayName="Log - Email Send Failed (Error)" sap:VirtualizedContainerService.HintSize="486,166" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;[GenerateAndSendInvestigationEmail] FAILED | IncidentID: &quot; &amp; in_IncidentID &amp; &quot; | Employee: &quot; &amp; in_EmployeeName &amp; &quot; | Recipient: &quot; &amp; in_EmployeeEmail &amp; &quot; | Exception: &quot; &amp; ex.Message]" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+  </Sequence>
+</Activity>

@@ -1,0 +1,324 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="UpdateIncidentStatus" this:UpdateIncidentStatus.in_ExcelFilePath="C:\Users\SushmaRajolli\OneDrive - Qualesce\QI0068\UiPath Hackathon26_638\Incident Report.xlsx" this:UpdateIncidentStatus.in_IncidentID="INC001" this:UpdateIncidentStatus.in_Status="Closed - FakeCall" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:this="clr-namespace:" xmlns:ue="clr-namespace:UiPath.Excel;assembly=UiPath.Excel.Activities" xmlns:ueab="clr-namespace:UiPath.Excel.Activities.Business;assembly=UiPath.Excel.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_ExcelFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_IncidentID" Type="InArgument(x:String)" />
+    <x:Property Name="in_Status" Type="InArgument(x:String)" />
+    <x:Property Name="out_IsUpdated" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_Message" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities.Business</x:String>
+      <x:String>UiPath.Excel.Model</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Update Incident Status" sap:VirtualizedContainerService.HintSize="1281,7405" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_IncidentData" />
+      <Variable x:TypeArguments="x:Int32" Default="[-1]" Name="incidentIDColIndex" />
+      <Variable x:TypeArguments="x:Int32" Default="[-1]" Name="statusColIndex" />
+      <Variable x:TypeArguments="x:Int32" Default="[-1]" Name="rowIndex" />
+      <Variable x:TypeArguments="x:Int32" Default="[0]" Name="currentRowCounter" />
+      <Variable x:TypeArguments="x:String" Name="previousStatus" />
+      <Variable x:TypeArguments="x:String" Name="statusCellAddress" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log - Searching Incident ID" sap:VirtualizedContainerService.HintSize="598,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;[UpdateIncidentStatus] Searching for Incident ID: &quot; &amp; in_IncidentID]" />
+    <If Condition="[Not System.IO.File.Exists(in_ExcelFilePath)]" DisplayName="If - File Exists?" sap:VirtualizedContainerService.HintSize="598,7207" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence DisplayName="Handle - File Not Found" sap:VirtualizedContainerService.HintSize="596,576" sap2010:WorkflowViewState.IdRef="Sequence_FileNotFound">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log - File Not Found" sap:VirtualizedContainerService.HintSize="562,175" sap2010:WorkflowViewState.IdRef="LogMessage_FileNotFound" Level="Error" Message="[&quot;[UpdateIncidentStatus] File not found: &quot; &amp; in_ExcelFilePath]" />
+          <Assign DisplayName="Assign - out_IsUpdated = False" sap:VirtualizedContainerService.HintSize="562,175" sap2010:WorkflowViewState.IdRef="Assign_FNF_Updated">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[out_IsUpdated]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign - out_Message (File Not Found)" sap:VirtualizedContainerService.HintSize="562,166" sap2010:WorkflowViewState.IdRef="Assign_FNF_Message">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_Message]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">["File not found: " &amp; in_ExcelFilePath]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <TryCatch DisplayName="Try - Open and Process Excel" sap:VirtualizedContainerService.HintSize="596,6479" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+          <TryCatch.Try>
+            <Sequence DisplayName="Process Excel File" sap:VirtualizedContainerService.HintSize="594,5671" sap2010:WorkflowViewState.IdRef="Sequence_ProcessExcel">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ueab:ExcelProcessScopeX DisplayAlerts="{x:Null}" ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayName="Excel Process Scope" sap:VirtualizedContainerService.HintSize="560,5611" sap2010:WorkflowViewState.IdRef="ExcelProcessScope_1">
+                <ueab:ExcelProcessScopeX.Body>
+                  <ActivityAction x:TypeArguments="ui:IExcelProcess">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="ui:IExcelProcess" Name="ExcelProcessScopeTag" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="558,5541" sap2010:WorkflowViewState.IdRef="Sequence_ProcessDo">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ueab:ExcelApplicationCard DisplayName="Excel - Open Incident Tracker" sap:VirtualizedContainerService.HintSize="524,5481" sap2010:WorkflowViewState.IdRef="ExcelCard_1" ResizeWindow="None" WorkbookPath="[in_ExcelFilePath]">
+                        <ueab:ExcelApplicationCard.Body>
+                          <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="ue:IWorkbookQuickHandle" Name="Excel" />
+                            </ActivityAction.Argument>
+                            <Sequence DisplayName="Excel Body" sap:VirtualizedContainerService.HintSize="522,5261" sap2010:WorkflowViewState.IdRef="Sequence_ExcelBody">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ueab:ReadRangeX DisplayName="Read Range - Get All Data" sap:VirtualizedContainerService.HintSize="488,170" sap2010:WorkflowViewState.IdRef="ReadRangeX_1" Range="[Excel.Sheet(&quot;Sheet1&quot;)]" SaveTo="[dt_IncidentData]" />
+                              <If Condition="[dt_IncidentData Is Nothing OrElse dt_IncidentData.Rows.Count = 0]" DisplayName="If - DataTable Empty?" sap:VirtualizedContainerService.HintSize="488,342" sap2010:WorkflowViewState.IdRef="If_Empty">
+                                <If.Then>
+                                  <Throw DisplayName="Throw - Empty File" Exception="[New Exception(&quot;The Excel file is empty or contains no data rows.&quot;)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_Empty" />
+                                </If.Then>
+                              </If>
+                              <If Condition="[Not dt_IncidentData.Columns.Contains(&quot;Incident ID&quot;)]" DisplayName="If - Incident ID Column Exists?" sap:VirtualizedContainerService.HintSize="488,342" sap2010:WorkflowViewState.IdRef="If_IncidentIDCol">
+                                <If.Then>
+                                  <Throw DisplayName="Throw - Missing Incident ID Column" Exception="[New Exception(&quot;Column 'Incident ID' not found in the Excel file.&quot;)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_IncidentIDCol" />
+                                </If.Then>
+                              </If>
+                              <If Condition="[Not dt_IncidentData.Columns.Contains(&quot;Status&quot;)]" DisplayName="If - Status Column Exists?" sap:VirtualizedContainerService.HintSize="488,342" sap2010:WorkflowViewState.IdRef="If_StatusCol">
+                                <If.Then>
+                                  <Throw DisplayName="Throw - Missing Status Column" Exception="[New Exception(&quot;Column 'Status' not found in the Excel file.&quot;)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_StatusCol" />
+                                </If.Then>
+                              </If>
+                              <Assign DisplayName="Assign - Get Incident ID Column Index" sap:VirtualizedContainerService.HintSize="488,175" sap2010:WorkflowViewState.IdRef="Assign_IncidentIDIdx">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[incidentIDColIndex]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[dt_IncidentData.Columns.IndexOf("Incident ID")]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Assign - Get Status Column Index" sap:VirtualizedContainerService.HintSize="488,175" sap2010:WorkflowViewState.IdRef="Assign_StatusIdx">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[statusColIndex]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[dt_IncidentData.Columns.IndexOf("Status")]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Assign - Initialize Row Counter" sap:VirtualizedContainerService.HintSize="488,175" sap2010:WorkflowViewState.IdRef="Assign_InitCounter">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[currentRowCounter]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[0]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:ForEach x:TypeArguments="sd:DataRow" CurrentIndex="{x:Null}" DisplayName="For Each - Find Matching Row" sap:VirtualizedContainerService.HintSize="488,751" sap2010:WorkflowViewState.IdRef="ForEach_1" Values="[dt_IncidentData.AsEnumerable()]">
+                                <ui:ForEach.Body>
+                                  <ActivityAction x:TypeArguments="sd:DataRow">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="sd:DataRow" Name="excelRow" />
+                                    </ActivityAction.Argument>
+                                    <Sequence DisplayName="Check Row" sap:VirtualizedContainerService.HintSize="486,620" sap2010:WorkflowViewState.IdRef="Sequence_CheckRow">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If Condition="[excelRow(&quot;Incident ID&quot;).ToString().Trim() = in_IncidentID.Trim() AndAlso rowIndex = -1]" DisplayName="If - Row Matches Incident ID?" sap:VirtualizedContainerService.HintSize="452,394" sap2010:WorkflowViewState.IdRef="If_RowMatch">
+                                        <If.Then>
+                                          <Assign DisplayName="Assign - Set Found Row Index" sap:VirtualizedContainerService.HintSize="450,143" sap2010:WorkflowViewState.IdRef="Assign_FoundRowIdx">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:Int32">[rowIndex]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:Int32">[currentRowCounter]</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                        </If.Then>
+                                      </If>
+                                      <Assign DisplayName="Assign - Increment Counter" sap:VirtualizedContainerService.HintSize="452,166" sap2010:WorkflowViewState.IdRef="Assign_IncrCounter">
+                                        <Assign.To>
+                                          <OutArgument x:TypeArguments="x:Int32">[currentRowCounter]</OutArgument>
+                                        </Assign.To>
+                                        <Assign.Value>
+                                          <InArgument x:TypeArguments="x:Int32">[currentRowCounter + 1]</InArgument>
+                                        </Assign.Value>
+                                      </Assign>
+                                    </Sequence>
+                                  </ActivityAction>
+                                </ui:ForEach.Body>
+                              </ui:ForEach>
+                              <If Condition="[rowIndex &gt;= 0]" DisplayName="If - Matching Row Found?" sap:VirtualizedContainerService.HintSize="488,2729" sap2010:WorkflowViewState.IdRef="If_RowFound">
+                                <If.Then>
+                                  <Sequence DisplayName="Update Status Cell" sap:VirtualizedContainerService.HintSize="450,1673" sap2010:WorkflowViewState.IdRef="Sequence_UpdateStatus">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <Assign DisplayName="Assign - Get Previous Status" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_PrevStatus">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[previousStatus]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[dt_IncidentData.Rows(rowIndex)("Status").ToString()]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign DisplayName="Assign - Calculate Cell Address" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_CellAddr">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[statusCellAddress]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[Chr(65 + statusColIndex) &amp; (rowIndex + 2).ToString()]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <ueab:WriteCellX Cell="[Excel.Sheet(&quot;Sheet1&quot;).Cell(statusCellAddress)]" DisplayName="Write Cell - Update Status" sap:VirtualizedContainerService.HintSize="416,222" sap2010:WorkflowViewState.IdRef="WriteCellX_1" Value="[in_Status]" />
+                                    <ui:LogMessage DisplayName="Log - Incident ID Searched" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_IDSearched" Level="Info" Message="[&quot;Incident ID Searched: &quot; &amp; in_IncidentID]" />
+                                    <ui:LogMessage DisplayName="Log - Previous Status" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_PrevStatus" Level="Info" Message="[&quot;Previous Status: &quot; &amp; previousStatus]" />
+                                    <ui:LogMessage DisplayName="Log - New Status" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_NewStatus" Level="Info" Message="[&quot;New Status: &quot; &amp; in_Status]" />
+                                    <ui:LogMessage DisplayName="Log - Update Result: Success" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_Success" Level="Info" Message="[&quot;Update Result: Success&quot;]" />
+                                    <Assign DisplayName="Assign - out_IsUpdated = True" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_IsUpdated_True">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[out_IsUpdated]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">[True]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign DisplayName="Assign - out_Message (Success)" sap:VirtualizedContainerService.HintSize="416,166" sap2010:WorkflowViewState.IdRef="Assign_Msg_Success">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[out_Message]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">["Status updated successfully for Incident ID " &amp; in_IncidentID]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </If.Then>
+                                <If.Else>
+                                  <Sequence DisplayName="Incident ID Not Found" sap:VirtualizedContainerService.HintSize="450,926" sap2010:WorkflowViewState.IdRef="Sequence_NotFound">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Log - Warning: Incident ID Not Found" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_NotFound" Level="Warn" Message="[&quot;[UpdateIncidentStatus] Warning: Incident ID '&quot; &amp; in_IncidentID &amp; &quot;' was not found. No changes made.&quot;]" />
+                                    <ui:LogMessage DisplayName="Log - Incident ID Searched" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_IDSearchedNF" Level="Info" Message="[&quot;Incident ID Searched: &quot; &amp; in_IncidentID]" />
+                                    <ui:LogMessage DisplayName="Log - Update Result: Not Found" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_NotFoundResult" Level="Info" Message="[&quot;Update Result: Not Found&quot;]" />
+                                    <Assign DisplayName="Assign - out_IsUpdated = False" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="Assign_IsUpdated_False">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[out_IsUpdated]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign DisplayName="Assign - out_Message (Not Found)" sap:VirtualizedContainerService.HintSize="416,166" sap2010:WorkflowViewState.IdRef="Assign_Msg_NotFound">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[out_Message]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">["Incident ID '" &amp; in_IncidentID &amp; "' was not found in the Excel file. No changes were made."]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                            </Sequence>
+                          </ActivityAction>
+                        </ueab:ExcelApplicationCard.Body>
+                      </ueab:ExcelApplicationCard>
+                    </Sequence>
+                  </ActivityAction>
+                </ueab:ExcelProcessScopeX.Body>
+              </ueab:ExcelProcessScopeX>
+            </Sequence>
+          </TryCatch.Try>
+          <TryCatch.Catches>
+            <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+              <ActivityAction x:TypeArguments="s:Exception">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Handle Exception" sap:VirtualizedContainerService.HintSize="594,576" sap2010:WorkflowViewState.IdRef="Sequence_Exception">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:LogMessage DisplayName="Log - Exception Details" sap:VirtualizedContainerService.HintSize="560,175" sap2010:WorkflowViewState.IdRef="LogMessage_Exception" Level="Error" Message="[&quot;[UpdateIncidentStatus] Error: &quot; &amp; ex.Message]" />
+                  <Assign DisplayName="Assign - out_IsUpdated = False" sap:VirtualizedContainerService.HintSize="560,175" sap2010:WorkflowViewState.IdRef="Assign_Ex_Updated">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Boolean">[out_IsUpdated]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="Assign - out_Message (Error)" sap:VirtualizedContainerService.HintSize="560,166" sap2010:WorkflowViewState.IdRef="Assign_Ex_Message">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[out_Message]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">["Error processing Excel file: " &amp; ex.Message]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </ActivityAction>
+            </Catch>
+          </TryCatch.Catches>
+        </TryCatch>
+      </If.Else>
+    </If>
+  </Sequence>
+</Activity>
