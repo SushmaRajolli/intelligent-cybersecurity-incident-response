@@ -1,0 +1,13 @@
+{
+  "DocVersion": "1.0.0",
+  "StudioMinVersion": "2025.04.0",
+  "SolutionId": "c5389275-ca25-4d38-6ebc-08ded05be504",
+  "Projects": [
+    {
+      "Type": "ProcessOrchestration",
+      "ProjectRelativePath": "Maestro BPMN/project.uiproj",
+      "Id": "df5005ee-8626-4e1e-830a-c35e569f0bf8"
+    }
+  ],
+  "AutomationHubIdeaUrl": null
+}
