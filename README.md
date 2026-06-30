@@ -1,243 +1,317 @@
-# Intelligent Cybersecurity Incident Response
+# 🛡️ Intelligent Cybersecurity Incident Response
 
-## 1. Project Description
+## AI-Powered Cybersecurity Case Orchestration with UiPath Maestro
 
-Intelligent Cybersecurity Incident Response is an AI-powered case management solution built using UiPath Maestro that automates and orchestrates cybersecurity incident investigations from detection to resolution.
+> **Detect Faster. Investigate Smarter. Respond with Confidence.**
 
-The solution combines AI agents, robotic automation, and human-in-the-loop approvals to accelerate incident response while maintaining governance and human oversight. It demonstrates how complex, exception-heavy cybersecurity workflows can be managed through dynamic case orchestration.
+Intelligent Cybersecurity Incident Response is an AI-powered case management solution built using **UiPath Maestro**, **Agent Builder**, and **Human-in-the-Loop Automation**. The solution orchestrates cybersecurity incidents from detection to resolution by combining AI threat analysis, robotic automation, and human decision-making into a single intelligent workflow.
 
 ---
 
-## 2. Problem Statement
+# 🚨 The Problem
 
-Security Operations Centers (SOC) handle thousands of alerts daily. Traditional incident response processes often involve:
+Security Operations Centers (SOC) receive thousands of security alerts every day.
 
-* Manual investigation and triage
-* Multiple disconnected systems
+Security analysts often face challenges such as:
+
+* Manual incident triage
+* High alert volumes
+* Complex investigation workflows
 * Slow response times
-* Human bottlenecks
-* Limited visibility across the incident lifecycle
-* Complex approval and escalation workflows
+* Multiple disconnected security tools
+* Human bottlenecks in approval processes
+* Lack of end-to-end incident visibility
 
-This project addresses these challenges by using AI-powered threat assessment and UiPath Maestro orchestration to automate cybersecurity incident response while keeping humans in control of critical decisions.
+Traditional security operations require analysts to manually coordinate investigations, approvals, remediation activities, and reporting across multiple systems.
 
----
-
-## 3. Solution Overview
-
-The solution begins when a cybersecurity incident is detected and loaded into the system.
-
-The workflow performs the following steps:
-
-1. Robot reads incident details from Excel.
-2. UiPath Maestro creates a new case.
-3. AI Threat Analysis Agent evaluates the threat.
-4. Security Analyst receives an Action Center task.
-5. Based on analyst decisions, the case dynamically follows one of three paths:
-
-   * Approve remediation
-   * Request additional evidence
-   * Close as false positive
-6. The case progresses until final resolution and closure.
+**There is a need for an intelligent orchestration platform that can analyze, coordinate, automate, and manage cybersecurity incidents while keeping humans in control of critical decisions.**
 
 ---
 
-## 4. Architecture Diagram
+# 💡 Our Solution
+
+Intelligent Cybersecurity Incident Response combines **AI-powered threat assessment**, **UiPath Maestro case orchestration**, and **human-in-the-loop decision-making** to automate and manage cybersecurity incident investigations.
+
+Instead of treating alerts as isolated events, the solution creates a dynamic case that progresses through multiple stages involving:
+
+* AI agents
+* Robots
+* Security analysts
+* Approval workflows
+* Automated remediation actions
+
+This enables faster incident response while maintaining governance and human oversight.
+
+---
+
+# ✨ Key Features
+
+## 🤖 AI Threat Assessment
+
+* Analyze cybersecurity incidents using AI
+* Generate threat severity scores
+* Identify attack categories
+* Recommend remediation actions
+* Produce investigation summaries
+
+---
+
+## 📋 Case Management with UiPath Maestro
+
+* Create incident cases automatically
+* Manage multi-stage investigations
+* Route cases dynamically
+* Handle exception scenarios
+* Track case lifecycle end-to-end
+
+---
+
+## 👨‍💻 Human-in-the-Loop Investigation
+
+Security analysts can:
+
+* Review AI recommendations
+* Approve investigations
+* Request additional evidence
+* Assign remediation tasks
+* Close incidents as false positives
+
+---
+
+## 📧 Automated Evidence Collection
+
+The solution can:
+
+* Send investigation emails automatically
+* Request additional user evidence
+* Collect responses
+* Attach evidence to the case
+* Restart investigations dynamically
+
+---
+
+## ⚡ Automated Remediation
+
+After approval, the system can automate:
+
+* Account disabling
+* Password resets
+* Security notifications
+* Incident reporting
+* Case closure activities
+
+---
+
+## 📊 Governance and Auditability
+
+* Complete audit trails
+* Human approvals
+* Decision history
+* Case status tracking
+* Compliance reporting
+
+---
+
+# 🏗️ System Architecture
 
 ```text
-Cybersecurity Incident
-          |
-          V
-    Excel Incident Feed
-          |
-          V
-      UiPath Robot
-          |
-          V
-    UiPath Maestro
-          |
-          V
- AI Threat Analysis Agent
-          |
-          V
- Security Analyst Review
-          |
-      +---+---+---+
-      |       |   |
-      |       |   |
-      V       V   V
-Approve  More Evidence  False Positive
-      |       |         |
-      V       V         V
-Remediation Email     Close Case
-      |
-      V
-Case Closure
+                Cybersecurity Incident
+                           │
+                           ▼
+                  Excel Incident Feed
+                           │
+                           ▼
+                     UiPath Robot
+                           │
+                           ▼
+                    UiPath Maestro
+                           │
+                           ▼
+                AI Threat Analysis Agent
+                           │
+                           ▼
+                 Security Analyst Review
+                           │
+                  ┌────────┼────────┐
+                  ▼        ▼        ▼
+              Approve  Evidence  False
+              Action   Request  Positive
+                  │        │        │
+                  ▼        ▼        ▼
+             Remediation Email    Close
+                  │
+                  ▼
+             Case Resolution
 ```
 
 ---
 
-## 5. UiPath Components Used
+# 🔄 How It Works
 
-| UiPath Component        | Purpose                                     |
-| ----------------------- | ------------------------------------------- |
-| UiPath Maestro          | Case orchestration and workflow management  |
-| UiPath Agent Builder    | AI-powered threat analysis                  |
-| UiPath Studio           | Automation development                      |
-| UiPath Action Center    | Human approval tasks                        |
-| UiPath Orchestrator     | Process execution and monitoring            |
-| UiPath Excel Activities | Incident data processing                    |
-| UiPath Mail Activities  | Email notifications and evidence collection |
-| UiPath Forms            | Human approval and investigation forms      |
+### 1️⃣ Detect
+
+The robot reads cybersecurity incidents from an Excel source and creates a new case in UiPath Maestro.
+
+↓
+
+### 2️⃣ Analyze
+
+The AI Threat Analysis Agent evaluates the incident, determines the severity, and recommends actions.
+
+↓
+
+### 3️⃣ Review
+
+The Security Analyst receives an Action Center task notification and reviews the AI recommendations.
+
+↓
+
+### 4️⃣ Decide
+
+The analyst chooses one of three possible actions:
+
+* Approve remediation
+* Request additional evidence
+* Close as false positive
+
+↓
+
+### 5️⃣ Execute
+
+UiPath Maestro orchestrates the next workflow stage automatically until case closure.
 
 ---
 
-## 6. Agent Type
+# 🎬 Demo Scenarios
 
-This solution utilizes:
+## Scenario 1 — Approve Recommendation
 
-### Low-code Agents
+* Incident is analyzed by AI.
+* Analyst approves the recommendation.
+* Investigation approval task is assigned.
+* Remediation actions are executed.
+* Case is resolved.
 
-* AI Threat Assessment Agent built using UiPath Agent Builder.
+---
 
-### Human-in-the-loop Agents
+## Scenario 2 — Collect More Evidence
 
-* Security Analyst review tasks.
-* Investigation approval tasks.
+* Analyst requests additional evidence.
+* Robot sends investigation email.
+* Employee response is collected.
+* Investigation resumes.
+* Case proceeds for further review.
+
+---
+
+## Scenario 3 — False Positive
+
+* Analyst determines no threat exists.
+* Incident is marked as false positive.
+* Case is automatically closed.
+
+---
+
+# 🛠️ Technology Stack
+
+### Automation
+
+* UiPath Studio
+* UiPath Maestro
+* UiPath Orchestrator
+* UiPath Action Center
+* UiPath Forms
+
+### Artificial Intelligence
+
+* UiPath Agent Builder
+* AI Threat Assessment Agent
+
+### Data Source
+
+* Microsoft Excel
+
+### Communication
+
+* Outlook Email Integration
+
+---
+
+# 🤖 UiPath Components
+
+* UiPath Maestro
+* UiPath Agent Builder
+* UiPath Studio
+* UiPath Action Center
+* UiPath Forms
+* UiPath Orchestrator
+* UiPath Mail Activities
+* UiPath Excel Activities
+
+---
+
+# 🧠 Agent Type
+
+### Agent Type Used
+
+* Low-Code AI Agent (UiPath Agent Builder)
+* Human-in-the-Loop Agent
+* UiPath Maestro Case Orchestration
 
 No coded agents were used in this implementation.
 
 ---
 
-## 7. Process Flow
-
-### Step 1: Incident Intake
-
-* Robot reads cybersecurity incidents from Excel.
-* A new case is created in UiPath Maestro.
-
-### Step 2: AI Threat Assessment
-
-* AI Agent analyzes the incident.
-* Threat severity and recommendations are generated.
-
-### Step 3: Security Analyst Review
-
-* Action Center task is assigned to the Security Analyst.
-* Analyst reviews AI recommendations.
-
-### Step 4: Dynamic Case Routing
-
-The analyst can choose one of three actions:
-
-#### Scenario 1: Approve Recommendation
-
-* Approve investigation.
-* Assign remediation owner.
-* Execute remediation.
-* Close case.
-
-#### Scenario 2: Request More Evidence
-
-* Send email requesting additional evidence.
-* Wait for employee response.
-* Reevaluate the case.
-
-#### Scenario 3: False Positive
-
-* Mark incident as false positive.
-* Close case immediately.
-
----
-
-## 8. Demo Scenarios
-
-### Scenario 1 — Approve Remediation
-
-Incident:
-
-* Incident ID: INC001
-* Alert Type: Phishing
-* Severity: High
-
-Flow:
-
-* AI analyzes threat.
-* Analyst approves recommendation.
-* Remediation tasks are assigned.
-* Case is resolved.
-
----
-
-### Scenario 2 — Collect More Evidence
-
-Incident:
-
-* Medium confidence threat.
-
-Flow:
-
-* Analyst requests additional evidence.
-* Email is sent to employee.
-* Additional information is collected.
-* Case returns for further analysis.
-
----
-
-### Scenario 3 — False Positive
-
-Incident:
-
-* Legitimate user activity.
-
-Flow:
-
-* Analyst determines no threat exists.
-* Incident marked as false positive.
-* Case closed.
-
----
-
-## 9. Setup Instructions
+# ⚙️ Setup Instructions
 
 ### Prerequisites
 
-* UiPath Automation Cloud account
+* UiPath Automation Cloud
 * UiPath Maestro enabled
-* UiPath Studio 2025.10 or later
-* UiPath Agent Builder access
-* UiPath Action Center access
-* Outlook email account
+* UiPath Studio
+* UiPath Agent Builder
+* UiPath Action Center
+* Outlook Account
 
-### Step 1: Clone Repository
+---
+
+### Clone Repository
 
 ```bash
 git clone <repository-url>
 ```
 
-### Step 2: Open Project
+---
 
-* Open the solution in UiPath Studio.
+### Open Project
 
-### Step 3: Configure Input Data
+Open the solution in UiPath Studio.
 
-Open:
+---
+
+### Configure Input Data
+
+Update:
 
 ```text
 /Data/IncidentData.xlsx
 ```
 
-Sample data:
+Sample Incident:
 
 | Incident ID | Employee   | Alert Type | Severity |
 | ----------- | ---------- | ---------- | -------- |
 | INC001      | John Smith | Phishing   | High     |
 
-### Step 4: Configure AI Agent
+---
 
-* Import the Threat Assessment Agent into UiPath Agent Builder.
+### Configure AI Agent
 
-### Step 5: Configure Maestro
+Import and configure the Threat Assessment Agent in UiPath Agent Builder.
+
+---
+
+### Configure Maestro
 
 Create the following stages:
 
@@ -249,31 +323,51 @@ Create the following stages:
 * Remediation
 * Closure
 
-### Step 6: Configure Action Center
+---
 
-Create human tasks for:
+### Configure Action Center
+
+Configure tasks for:
 
 * Security Analyst
 * Investigation Approver
 
-### Step 7: Configure Email
+---
 
-Configure Outlook credentials for:
-
-* Action Center notifications
-* Evidence collection emails
-
-### Step 8: Run Solution
+### Run Solution
 
 Execute:
 
-```text
+```bash
 Main.xaml
 ```
 
 ---
 
-## 10. Future Enhancements
+# 📁 Repository Structure
+
+```text
+Project
+│
+├── Main.xaml
+├── Data
+│   └── IncidentData.xlsx
+├── Workflows
+│   ├── IncidentIntake.xaml
+│   ├── ThreatAnalysis.xaml
+│   ├── EvidenceCollection.xaml
+│   └── CaseClosure.xaml
+├── Agents
+│   └── ThreatAssessmentAgent
+├── Documentation
+│   ├── Architecture.png
+│   └── ProcessFlow.png
+└── README.md
+```
+
+---
+
+# 🚀 Future Roadmap
 
 Future versions of this solution could integrate with:
 
@@ -290,41 +384,26 @@ These integrations would enable a fully automated enterprise-grade cybersecurity
 
 ---
 
-## 11. Repository Structure
-
-```text
-Project/
-│
-├── Main.xaml
-├── Data/
-│   └── IncidentData.xlsx
-├── Workflows/
-│   ├── IncidentIntake.xaml
-│   ├── ThreatAssessment.xaml
-│   ├── EvidenceCollection.xaml
-│   └── CaseClosure.xaml
-├── Agents/
-│   └── ThreatAssessmentAgent
-├── Documentation/
-│   ├── Architecture.png
-│   └── ProcessFlow.png
-└── README.md
-```
-
----
-
-## 12. Video Demo Link
+# 🎥 Video Demo
 
 Demo Video:
 
 ```text
-<https://www.youtube.com/watch?v=cHAZqWOdwN>
+<[Insert Demo Video URL Here](https://www.youtube.com/watch?v=cHAZqWOdwNw)>
 ```
 
 ---
 
-## Conclusion
+# Why Intelligent Cybersecurity Incident Response?
 
-This project demonstrates how UiPath Maestro can orchestrate complex, exception-heavy cybersecurity incident response processes by combining AI agents, robotic automation, and human expertise into a single case management solution.
+Cybersecurity incidents require fast decisions, coordinated actions, and strong governance.
 
-Thank you for reviewing our project.
+By combining AI agents, robotic automation, and human expertise using UiPath Maestro, this solution demonstrates how organizations can significantly improve cybersecurity response while maintaining human oversight and compliance.
+
+---
+
+## Developer
+
+**Sushma Rajolli**
+
+Built for **UiPath AgentHack 2026**
