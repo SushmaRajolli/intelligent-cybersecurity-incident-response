@@ -278,7 +278,7 @@ No coded agents were used in this implementation.
 ### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone <[repository-url](https://github.com/SushmaRajolli/intelligent-cybersecurity-incident-response)>
 ```
 
 ---
